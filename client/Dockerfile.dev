@@ -1,0 +1,11 @@
+# define base image node:alpine
+FROM node:alpine
+# set working directory
+WORKDIR "/app"
+# copt package.json and run 'npm install'
+COPY ./package.json ./
+RUN npm install
+
+COPY . .
+
+CMD ["npm", "run", "start"]
