@@ -1,0 +1,20 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t dmcgeown-deveire/react-test -f ./client/Dockerfile.dev .
+
+script:
+  - docker run -e CI=true dmcgeown-deveire/react-test npm test
+
+after_success:
+  - docker build dmcgeown-deveire/multi-client -f ./client
+  - docker build dmcgeown-deveire/multi-nginx -f ./nginx
+  - docker build dmcgeown-deveire/multi-server -f ./server
+  - docker build dmcgeown-deveire/multi-worker -f ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push dmcgeown-deveire/multi-client
+  - docker push dmcgeown-deveire/multi-nginx
+  - docker push dmcgeown-deveire/multi-server
+  - docker push dmcgeown-deveire/multi-worker
