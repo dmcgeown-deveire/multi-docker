@@ -9,11 +9,13 @@ script:
   - docker run -e CI=true dmcgeown-deveire/react-test npm test
 
 after_success:
-  - docker build dmcgeown/multi-client -f ./client
-  - docker build dmcgeown/multi-nginx -f ./nginx
-  - docker build dmcgeown/multi-server -f ./server
-  - docker build dmcgeown/multi-worker -f ./worker
+  - docker build -t dmcgeown/multi-client ./client
+  - docker build -t dmcgeown/multi-nginx ./nginx
+  - docker build -t dmcgeown/multi-server ./server
+  - docker build -t dmcgeown/multi-worker ./worker
+  # login into docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # push images to DockerHub
   - docker push dmcgeown/multi-client
   - docker push dmcgeown/multi-nginx
   - docker push dmcgeown/multi-server
