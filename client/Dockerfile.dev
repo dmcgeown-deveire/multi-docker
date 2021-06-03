@@ -3,7 +3,7 @@ FROM node:alpine
 # set working directory
 WORKDIR "/app"
 # copt package.json and run 'npm install'
-COPY ./package.json ./
+COPY package.json ./
 RUN npm install
 
 COPY . .
