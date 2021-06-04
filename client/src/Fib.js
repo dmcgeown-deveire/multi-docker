@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import _ from "lodash";
 
 class Fib extends Component {
   state = {
@@ -35,7 +36,7 @@ class Fib extends Component {
   };
 
   renderSeenIndexes() {
-    return this.state.seenIndexes.map(({number}) => number).join(', ');
+    return _.join(this.state.seenIndexes);
   }
 
   renderValues() {
